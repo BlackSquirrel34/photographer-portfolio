@@ -4,8 +4,23 @@ import styles from "../styles/Home.module.css";
 
 export default function Home() {
   return (
-    <h1 className="text-3xl text-red-500 font-bold underline">
-      Hello, Next.js!
-    </h1>
+    <div className="h-full bg-[url('/photography-bg-crop.jpg')] bg-top bg-cover">
+      <Head>
+        <title>Photography Portfolio</title>
+        <meta
+          name="description"
+          content="A photography portfolio web app using the Unsplash API"
+        />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <main className="">
+        <p>Placeholder for main</p>
+      </main>
+
+      <footer>
+        <p>Placeholder for footer</p>
+      </footer>
+    </div>
   );
 }
