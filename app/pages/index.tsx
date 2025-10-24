@@ -6,6 +6,8 @@ import { Tab } from "@headlessui/react";
 import Masonry from "react-masonry-css";
 import classNames from "classnames";
 
+import backgroundImage from "../public/photography-bg-crop.jpg";
+
 import ocean1 from "../public/andrzej-kryszpiniuk-4wFqHZ1ONnM-unsplash.jpg";
 import ocean2 from "../public/ivan-bandura-2FEE6BR343k-unsplash.jpg";
 import ocean3 from "../public/silas-baisch-K785Da4A_JA-unsplash.jpg";
@@ -30,7 +32,7 @@ const tabs = [
 ];
 export default function Home() {
   return (
-    <div className="h-full bg-[url('/photography-bg-crop.jpg')] bg-top bg-cover overflow-auto">
+    <div className="h-full overflow-auto bg-black">
       {/*     as Head is not flex its basicaly invisible in the layout */}
       <Head>
         <title>Photography Portfolio</title>
@@ -41,7 +43,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className="fixed top-0 w-full z-10 flex justify-between bg-black items-center h-[90px] px-2 sm: px-4 md:px-12">
+      <Image
+        className="fixed left-0 top-0 z-0 pt-40 h-full w-full object-cover"
+        src={backgroundImage}
+        alt="photographer"
+        placeholder="blur"
+        priority
+      />
+
+      <div className="fixed left-0 top-0 w-full h-full z-10 from-stone-900 bg-gradient-to-t"></div>
+
+      <header className="fixed top-0 w-full z-30 flex justify-between bg-black items-center h-[90px] px-2 sm: px-4 md:px-12">
         <span className="uppercase text-lg font-medium">
           Photography Portfolio
         </span>
@@ -53,7 +65,8 @@ export default function Home() {
         </Link>
       </header>
 
-      <main className="pt-[110px]">
+      {/* without relative z-index is not applied  */}
+      <main className="relative pt-[110px] z-20">
         <div className="flex flex-col items-center h-full">
           <Tab.Group>
             <Tab.List className="flex items-center gap-16">
@@ -74,7 +87,7 @@ export default function Home() {
             </Tab.List>
             <Tab.Panels className="h-full bg-opacity-80 max-w-[900px] w-full p-2 my-4 sm:p-4 lg:p-8 ">
               <Tab.Panel className="overflow-auto">
-                {/*  <Masonry
+                <Masonry
                   breakpointCols={2}
                   className="flex gap-4"
                   columnClassName=""
@@ -88,7 +101,7 @@ export default function Home() {
                       placeholder="blur"
                     />
                   ))}
-                </Masonry> */}
+                </Masonry>
               </Tab.Panel>
               <Tab.Panel>Oceans</Tab.Panel>
               <Tab.Panel>Forests</Tab.Panel>
@@ -97,7 +110,7 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="h-[90px] flex justify-center items-center uppercase text-lg font-medium">
+      <footer className="relative h-[90px] flex justify-center items-center uppercase text-lg font-medium z-20">
         <p>Photography portfolio</p>
       </footer>
     </div>
