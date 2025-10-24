@@ -6,6 +6,14 @@ import { Tab } from "@headlessui/react";
 import Masonry from "react-masonry-css";
 import classNames from "classnames";
 
+import ocean1 from "../public/andrzej-kryszpiniuk-4wFqHZ1ONnM-unsplash.jpg";
+import ocean2 from "../public/ivan-bandura-2FEE6BR343k-unsplash.jpg";
+import ocean3 from "../public/silas-baisch-K785Da4A_JA-unsplash.jpg";
+import ocean4 from "../public/gatis-marcinkevics-a5uptAdUmjE-unsplash.jpg";
+import ocean5 from "../public/cristian-palmer-XexawgzYOBc-unsplash.jpg";
+
+const images = [ocean1, ocean2, ocean3, ocean4, ocean5];
+
 const tabs = [
   {
     key: "all",
@@ -33,7 +41,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <header className="fixed top-0 w-full z-10 flex justify-between bg-black items-center h-[90px] px-12">
+      <header className="fixed top-0 w-full z-10 flex justify-between bg-black items-center h-[90px] px-2 sm: px-4 md:px-12">
         <span className="uppercase text-lg font-medium">
           Photography Portfolio
         </span>
@@ -66,42 +74,21 @@ export default function Home() {
             </Tab.List>
             <Tab.Panels className="h-full bg-opacity-80 max-w-[900px] w-full p-2 my-4 sm:p-4 lg:p-8 ">
               <Tab.Panel className="overflow-auto">
-                <Masonry
+                {/*  <Masonry
                   breakpointCols={2}
                   className="flex gap-4"
                   columnClassName=""
                 >
-                  <img
-                    src="/andrzej-kryszpiniuk-4wFqHZ1ONnM-unsplash.jpg"
-                    alt="ocean-1"
-                    className="my-4
-                    "
-                  />
-                  <img
-                    src="ivan-bandura-2FEE6BR343k-unsplash.jpg"
-                    alt="ocean-1"
-                    className="my-4
-                    "
-                  />
-                  <img
-                    src="silas-baisch-K785Da4A_JA-unsplash.jpg"
-                    alt="ocean-1"
-                    className="my-4
-                    "
-                  />
-                  <img
-                    src="gatis-marcinkevics-a5uptAdUmjE-unsplash.jpg"
-                    alt="ocean-1"
-                    className="my-4
-                    "
-                  />
-                  <img
-                    src="cristian-palmer-XexawgzYOBc-unsplash.jpg"
-                    alt="ocean-1"
-                    className="my-4
-                    "
-                  />
-                </Masonry>
+                  {images.map((image) => (
+                    <Image
+                      key={image.src}
+                      src={image}
+                      alt="ocean"
+                      className="my-4"
+                      placeholder="blur"
+                    />
+                  ))}
+                </Masonry> */}
               </Tab.Panel>
               <Tab.Panel>Oceans</Tab.Panel>
               <Tab.Panel>Forests</Tab.Panel>
