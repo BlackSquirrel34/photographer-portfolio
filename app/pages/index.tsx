@@ -6,6 +6,16 @@ import { Tab } from "@headlessui/react";
 import Masonry from "react-masonry-css";
 import classNames from "classnames";
 
+import type { LightGallery } from "lightgallery/lightgallery";
+import LightGalleryComponent from "lightgallery/react";
+// import styles
+import "lightgallery/css/lightgallery.css";
+import "lightgallery/css/lg-zoom.css";
+import "lightgallery/css/lg-thumbnail.css";
+// import plugins
+import lgThumbnail from "lightgallery/plugins/thumbnail";
+import lgZoom from "lightgallery/plugins/zoom";
+
 import backgroundImage from "../public/photography-bg-crop.jpg";
 
 import ocean1 from "../public/andrzej-kryszpiniuk-4wFqHZ1ONnM-unsplash.jpg";
@@ -13,6 +23,7 @@ import ocean2 from "../public/ivan-bandura-2FEE6BR343k-unsplash.jpg";
 import ocean3 from "../public/silas-baisch-K785Da4A_JA-unsplash.jpg";
 import ocean4 from "../public/gatis-marcinkevics-a5uptAdUmjE-unsplash.jpg";
 import ocean5 from "../public/cristian-palmer-XexawgzYOBc-unsplash.jpg";
+import { useRef } from "react";
 
 const images = [ocean1, ocean2, ocean3, ocean4, ocean5];
 
@@ -31,6 +42,8 @@ const tabs = [
   },
 ];
 export default function Home() {
+  const lightboxRef = useRef<LightGallery | null>(null);
+
   return (
     <div className="h-full overflow-auto bg-black">
       {/*     as Head is not flex its basicaly invisible in the layout */}
@@ -92,16 +105,35 @@ export default function Home() {
                   className="flex gap-4"
                   columnClassName=""
                 >
-                  {images.map((image) => (
+                  {images.map((image, index) => (
                     <Image
                       key={image.src}
                       src={image}
                       alt="ocean"
-                      className="my-4"
+                      className="my-4 hover:opacity-85 bg-slate-900 hover:cursor-pointer"
                       placeholder="blur"
+                      // we want to trigger lightgallery
+                      onClick={() => lightboxRef.current?.openGallery(index)}
                     />
                   ))}
                 </Masonry>
+
+                <LightGalleryComponent
+                  onInit={(ref) => {
+                    if (ref) {
+                      lightboxRef.current = ref.instance;
+                    }
+                  }}
+                  speed={500}
+                  plugins={[lgThumbnail, lgZoom]}
+                  escKey
+                  dynamic
+                  dynamicEl={images.map((image) => ({
+                    src: image.src,
+                    thumb: image.src,
+                    subHtml: "<h4>Image title</h4><p>Image description</p>",
+                  }))}
+                />
               </Tab.Panel>
               <Tab.Panel>Oceans</Tab.Panel>
               <Tab.Panel>Forests</Tab.Panel>
