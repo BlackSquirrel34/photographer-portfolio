@@ -25,6 +25,15 @@ import ocean4 from "../public/gatis-marcinkevics-a5uptAdUmjE-unsplash.jpg";
 import ocean5 from "../public/cristian-palmer-XexawgzYOBc-unsplash.jpg";
 import { useRef } from "react";
 
+type ImageT = {
+  src: string;
+  thumb: string;
+  width: number;
+  height: number;
+  alt: string;
+  blurDataUrl?: string;
+};
+
 const images = [ocean1, ocean2, ocean3, ocean4, ocean5];
 
 const tabs = [
@@ -106,15 +115,20 @@ export default function Home() {
                   columnClassName=""
                 >
                   {images.map((image, index) => (
-                    <Image
-                      key={image.src}
-                      src={image}
-                      alt="ocean"
-                      className="my-4 hover:opacity-85 bg-slate-900 hover:cursor-pointer"
-                      placeholder="blur"
-                      // we want to trigger lightgallery
-                      onClick={() => lightboxRef.current?.openGallery(index)}
-                    />
+                    <div className="relative" key={image.src}>
+                      <Image
+                        key={image.src}
+                        src={image}
+                        alt="ocean"
+                        className="my-4 bg-slate-900"
+                        placeholder="blur"
+                        // we want to trigger lightgallery
+                      />
+                      <div
+                        className="absolute w-full h-full inset-0 bg-transparent hover:bg-stone-900 hover:bg-opacity-10 hover:cursor-pointer"
+                        onClick={() => lightboxRef.current?.openGallery(index)}
+                      ></div>
+                    </div>
                   ))}
                 </Masonry>
 
@@ -147,4 +161,12 @@ export default function Home() {
       </footer>
     </div>
   );
+}
+
+async function getImages(query: string): Promise<ImageT[]> {
+  // refactor this so we differentiate oceans, forests and stuff
+  // you cna get this from tabs
+  // this function returns an array of ocean-images for the query ocean
+  // i guess we can store images directly in the tabs dictionary
+  return [];
 }
