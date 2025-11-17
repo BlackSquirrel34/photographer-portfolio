@@ -41,7 +41,7 @@ export default function Profil() {
           </h2>
           <div className="rounded-lg p-5 flex flex-col md:flex-row md:gap-4 space-y-8 md:space-y-0">
             {/* Erster div */}
-            <div className="flex-1 p-4 rounded flex items-center">
+            <div className="flex-1 p-4 rounded">
               {" "}
               {/* Hier hinzugefügt */}
               <div>
@@ -55,7 +55,7 @@ export default function Profil() {
               </div>
             </div>
             {/* Zweiter div */}
-            <div className="flex-1 p-4 rounded ">
+            <div className="flex-1 p-4 rounded">
               <h4 className="pb-4 font-bold">Pro</h4>
               <ul className="list-disc list-inside space-y-2">
                 <li>Lorem ipsum dolor sit amet</li>
