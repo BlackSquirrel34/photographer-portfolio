@@ -1,5 +1,5 @@
 import Head from "next/head";
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import styles from "../styles/Home.module.css";
 import Link from "next/link";
 import { Tab } from "@headlessui/react";
@@ -16,14 +16,31 @@ import "lightgallery/css/lg-thumbnail.css";
 import lgThumbnail from "lightgallery/plugins/thumbnail";
 import lgZoom from "lightgallery/plugins/zoom";
 
+// import images
 import backgroundImage from "../public/photography-bg-crop.jpg";
-
+// oceans
 import ocean1 from "../public/andrzej-kryszpiniuk-4wFqHZ1ONnM-unsplash.jpg";
 import ocean2 from "../public/ivan-bandura-2FEE6BR343k-unsplash.jpg";
 import ocean3 from "../public/silas-baisch-K785Da4A_JA-unsplash.jpg";
 import ocean4 from "../public/gatis-marcinkevics-a5uptAdUmjE-unsplash.jpg";
 import ocean5 from "../public/cristian-palmer-XexawgzYOBc-unsplash.jpg";
+// forests
+import forest1 from "../public/degleex-ganzorig-wQImoykAwGs-unsplash.jpg";
+import forest2 from "../public/sergei-a--heLWtuAN3c-unsplash.jpg";
+import forest3 from "../public/michael-krahn-_ReQ6GSqSaM-unsplash.jpg";
+import forest4 from "../public/gustav-gullstrand-d6kSvT2xZQo-unsplash.jpg";
+import forest5 from "../public/filip-zrnzevic-QsWG0kjPQRY-unsplash.jpg";
+import forest6 from "../public/casey-horner-4rDCa5hBlCs-unsplash.jpg";
+// portraits
+import portrait1 from "../public/albert-dera-ILip77SbmOE-unsplash.jpg";
+import portrait2 from "../public/filipp-romanovski-CGKYNN3uuVo-unsplash.jpg";
+import portrait3 from "../public/jake-nackos-IF9TK5Uy-KI-unsplash.jpg";
+import portrait4 from "../public/imansyah-muhamad-putera-n4KewLKFOZw-unsplash.jpg";
+
 import { useRef } from "react";
+import { forwardRefWithAs } from "@headlessui/react/dist/utils/render";
+import TabContent from "../components/TabContent";
+import Navbar from "../components/Navbar";
 
 type ImageT = {
   src: string;
@@ -34,30 +51,54 @@ type ImageT = {
   blurDataUrl?: string;
 };
 
-const images = [ocean1, ocean2, ocean3, ocean4, ocean5];
+const ocean_images = [ocean1, ocean2, ocean3, ocean4, ocean5];
+const forest_images = [forest1, forest2, forest3, forest4, forest5, forest6];
+const portrait_images = [portrait1, portrait2, portrait3, portrait4];
+const appended_images = [...ocean_images, ...forest_images, ...portrait_images];
+
+// Fisher-Yates shuffle
+function shuffleArray(array: StaticImageData[]) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+shuffleArray(appended_images); // Shuffle in place
+
+const all_shuffled_images: StaticImageData[] = appended_images; // Now correctly typed
 
 const tabs = [
   {
     key: "all",
-    display: "All",
+    display: "Alle",
+    images: all_shuffled_images,
   },
   {
     key: "oceans",
-    display: "Oceans",
+    display: "Meer",
+    images: ocean_images,
   },
   {
     key: "forests",
-    display: "Forests",
+    display: "Wald",
+    images: forest_images,
+  },
+  {
+    key: "portrait",
+    display: "Porträt",
+    images: portrait_images,
   },
 ];
 export default function Home() {
   const lightboxRef = useRef<LightGallery | null>(null);
+  const navbarHeight = "90px";
 
   return (
-    <div className="h-full overflow-auto bg-black">
+    <div className="h-full bg-black">
       {/*     as Head is not flex its basicaly invisible in the layout */}
       <Head>
-        <title>Photography Portfolio</title>
+        <title>Photographie Portfolio</title>
         <meta
           name="description"
           content="A photography portfolio web app using the Unsplash API"
@@ -66,32 +107,26 @@ export default function Home() {
       </Head>
 
       <Image
-        className="fixed left-0 top-0 z-0 pt-40 h-full w-full object-cover"
+        className="fixed left-0 top-[230px] mb-[60px] z-0 w-full object-cover"
+        style={{ height: `calc(100vh - ${navbarHeight})` }} // Dynamische Höhe
         src={backgroundImage}
         alt="photographer"
         placeholder="blur"
         priority
       />
 
-      <div className="fixed left-0 top-0 w-full h-full z-10 from-stone-900 bg-gradient-to-t"></div>
+      <div
+        className="fixed left-0 top-[90px] w-full z-10 from-stone-900 bg-gradient-to-t"
+        style={{ height: `calc(100vh - ${navbarHeight})` }}
+      ></div>
 
-      <header className="fixed top-0 w-full z-30 flex justify-between bg-black items-center h-[90px] px-2 sm: px-4 md:px-12">
-        <span className="uppercase text-lg font-medium">
-          Photography Portfolio
-        </span>
-        <Link
-          href="#"
-          className="rounded-3xl bg-white text-stone-700 px-3 py-2 hover:bg-opacity-90"
-        >
-          Get In Touch
-        </Link>
-      </header>
+      <Navbar />
 
       {/* without relative z-index is not applied  */}
-      <main className="relative pt-[110px] z-20">
-        <div className="flex flex-col items-center h-full">
+      <main className="relative pt-[90px] z-20 min-h-screen">
+        <div className="flex flex-col items-center h-full mt-4">
           <Tab.Group>
-            <Tab.List className="flex items-center gap-16">
+            <Tab.List className="flex items-center gap-16 mx-3">
               {tabs.map((tab) => (
                 <Tab key={tab.key} className="p-2">
                   {({ selected }) => (
@@ -107,66 +142,21 @@ export default function Home() {
                 </Tab>
               ))}
             </Tab.List>
-            <Tab.Panels className="h-full bg-opacity-80 max-w-[900px] w-full p-2 my-4 sm:p-4 lg:p-8 ">
-              <Tab.Panel className="overflow-auto">
-                <Masonry
-                  breakpointCols={2}
-                  className="flex gap-4"
-                  columnClassName=""
-                >
-                  {images.map((image, index) => (
-                    <div className="relative" key={image.src}>
-                      <Image
-                        key={image.src}
-                        src={image}
-                        alt="ocean"
-                        className="my-4 bg-slate-900"
-                        placeholder="blur"
-                        // we want to trigger lightgallery
-                      />
-                      <div
-                        className="absolute w-full h-full inset-0 bg-transparent hover:bg-stone-900 hover:bg-opacity-10 hover:cursor-pointer"
-                        onClick={() => lightboxRef.current?.openGallery(index)}
-                      ></div>
-                    </div>
-                  ))}
-                </Masonry>
-
-                <LightGalleryComponent
-                  onInit={(ref) => {
-                    if (ref) {
-                      lightboxRef.current = ref.instance;
-                    }
-                  }}
-                  speed={500}
-                  plugins={[lgThumbnail, lgZoom]}
-                  escKey
-                  dynamic
-                  dynamicEl={images.map((image) => ({
-                    src: image.src,
-                    thumb: image.src,
-                    subHtml: "<h4>Image title</h4><p>Image description</p>",
-                  }))}
-                />
-              </Tab.Panel>
-              <Tab.Panel>Oceans</Tab.Panel>
-              <Tab.Panel>Forests</Tab.Panel>
+            <Tab.Panels className="h-full bg-opacity-80 max-w-[900px] w-full py-2 px-2 sm:px-4 lg:px-8 lg:py-6">
+              <TabContent images={all_shuffled_images} />
+              <TabContent images={ocean_images} />
+              <TabContent images={forest_images} />
+              <TabContent images={portrait_images} />
             </Tab.Panels>
           </Tab.Group>
         </div>
       </main>
 
-      <footer className="relative h-[90px] flex justify-center items-center uppercase text-lg font-medium z-20">
-        <p>Photography portfolio</p>
+      <footer className="relative h-[150px]  flex justify-center bg-black items-center uppercase text-lg font-medium z-20">
+        <Link href="credits" className="hover:text-gray-300 cursor-pointer">
+          Image Credits
+        </Link>
       </footer>
     </div>
   );
-}
-
-async function getImages(query: string): Promise<ImageT[]> {
-  // refactor this so we differentiate oceans, forests and stuff
-  // you cna get this from tabs
-  // this function returns an array of ocean-images for the query ocean
-  // i guess we can store images directly in the tabs dictionary
-  return [];
 }

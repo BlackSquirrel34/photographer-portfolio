@@ -20,7 +20,8 @@
   "ts-node": {
     "transpileOnly": true,
     "compilerOptions": {
-      "module": "CommonJS"
+      "module": "ESNext",
+      "jsx": "react-jsx"
     }
   }
 }
