@@ -4,7 +4,7 @@ import { FaPaperPlane } from "react-icons/fa";
 export default function SubmitBtn() {
   const [pending, setPending] = useState(false);
 
-  const handleClick = async (e) => {
+  const handleClick = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
     setPending(true);
     // simulate form submission
