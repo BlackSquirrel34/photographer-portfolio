@@ -1,6 +1,6 @@
 // altcha setup
 import crypto from "crypto";
-import { ALTCHA_SECRET } from "@/lib/constants";
+import { ALTCHA_SECRET } from "./constants";
 
 export function generateSalt(length = 20) {
   return crypto.randomBytes(length).toString("hex");
